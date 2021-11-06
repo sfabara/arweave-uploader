@@ -1,0 +1,3 @@
+.connect:hover > svg > path{
+    stroke: white !important;
+}
