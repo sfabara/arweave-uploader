@@ -87,12 +87,27 @@ const Component = ({ arKey, setArKey, arweave, setWalletRendered, setWinston, se
 
                 console.log(gen_key)
 
+
                 arweave.wallets.jwkToAddress(gen_key)
                     .then((address) => {
                         setLoading(false)
                         setWalletRendered(true)
                         console.log(address);
                         setArKey(address)
+
+                        arweave.wallets.getBalance(address)
+                            .then((balance) => {
+                                //let winston = balance;
+                                //let ar = arweave.ar.winstonToAr(balance);
+                                setWinston(balance)
+                                setAr(arweave.ar.winstonToAr(balance))
+
+
+                            });
+
+
+
+
 
                     })
                     .catch(err => console.error(err));
@@ -121,11 +136,12 @@ const Component = ({ arKey, setArKey, arweave, setWalletRendered, setWinston, se
                         transition: {
                             duration: .3
                         },
-                        
+
                     }}
-                    whileTap={{ 
-                        
-                        scale: 0.9 }}
+                    whileTap={{
+
+                        scale: 0.9
+                    }}
 
                 >
                     <BsWallet2 size={60} />
