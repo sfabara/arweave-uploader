@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect} from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 import { BiUpload } from 'react-icons/bi'
 import { GrConnect } from 'react-icons/gr'
@@ -7,12 +7,13 @@ import styled, { css } from 'styled-components'
 
 import Arweave from 'arweave';
 import { default as logo } from './arweave.svg';
-import Button from './styled-components/Button'
+
+import Button from './styled-components/Button/Button'
 
 // Components
 import HandleWallet from './components/HandleWallet/index'
 import OpenedWallet from './components/OpenedWallet/index'
-
+import ConnectWallet from './components/InputWallet/index'
 
 
 
@@ -51,6 +52,8 @@ function App() {
   const [walletRendered, setWalletRendered] = useState(false)
   const [winston, setWinston] = useState(null)
   const [ar, setAr] = useState(null)
+  const [connectWallet, setConnectWallet] = useState(false)
+  const [comp, setComp] = useState(null)
 
 
   const arweave = Arweave.init({});
@@ -58,17 +61,15 @@ function App() {
 
   // =========================================================
   // =========================================================
-  useEffect(() => {
-    
 
 
-  }, [arKey])
+
 
 
 
   return (
     <div className="App">
-      <div style={{ display: "flex"}}>
+      <div style={{ display: "flex" }}>
         <img src={logo} style={{ width: "100px" }} />
         <h1>Arweave Uploader </h1>
 
@@ -80,23 +81,35 @@ function App() {
 
         <Panel>
 
-          {
-            walletRendered ? <OpenedWallet ar={ar} winston={winston} arKey={arKey} setWalletRendered={setWalletRendered}/> : <HandleWallet
-              setAr={setAr}
-              setWinston={setWinston}
-              setWalletRendered={setWalletRendered} arKey={arKey} setArKey={setArKey} arweave={arweave} />
-          }
+          {/* {
+            
+            walletRendered ? <OpenedWallet ar={ar} winston={winston} arKey={arKey} setWalletRendered={setWalletRendered}/> : 
+            
+
+          } */}
+       
+          
+          <HandleWallet
+            setConnectWallet={setConnectWallet}
+            connectWallet={connectWallet}
+            setAr={setAr}
+            ar={ar}
+            setWinston={setWinston}
+            setWalletRendered={setWalletRendered}
+            arKey={arKey}
+            setArKey={setArKey}
+            arweave={arweave} 
+            comp={comp}
+            walletRendered={walletRendered}
+            setComp={setComp}
+            />
 
         </Panel>
 
         <form>
           <Button
             onClick={handleUploadClick}
-            whileHover={{
-              scale: 1.1,
-              transition: { duration: .3 },
-            }}
-            whileTap={{ scale: 0.9 }}
+
           >
 
 

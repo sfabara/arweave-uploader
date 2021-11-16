@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 import styled, { css } from 'styled-components'
-import { IoIosArrowBack } from 'react-icons/io';
-import Button from '../../styled-components/Button'
+
+//Styled Components
+import Button from '../../styled-components/Button/Button'
+import BackButton from '../../styled-components/BackButton/BackButton'
+
 import { FaClipboard, FaClipboardCheck } from 'react-icons/fa'
 import "./index.css"
 import { motion } from "framer-motion"
 
-const BackButton = styled(Button)`
-    align-self: flex-start;
-    background-color: white;
-    width: 5%;
-    height: 6%;
-    padding: 5px;
-    &:hover{
-        background-color: #c84a4a;
-    }
-`
+
+// const BackButton = styled(Button)`
+//     align-self: flex-start;
+//     background-color: white;
+//     width: 5%;
+//     height: 6%;
+//     padding: 5px;
+//     outline: none;
+//     &:hover{
+//         background-color: #c84a4a;
+//     }
+// `
 
 const Address = styled.div`
     color: white;
@@ -27,6 +32,7 @@ const Address = styled.div`
     justify-content: space-around;
     align-items: center;
     margin: 20px;
+    font-weight: 500;
 
 `;
 
@@ -44,6 +50,7 @@ const Copy = styled(motion.div)`
 
 
 const Component = ({ arKey, winston, ar, setWalletRendered }) => {
+
     const handleBack = () => {
         setWalletRendered(false)
 
@@ -63,13 +70,7 @@ const Component = ({ arKey, winston, ar, setWalletRendered }) => {
             <Content>
                 <BackButton
                     onClick={handleBack}
-                    whileHover={{
-                        scale: 1.1,
-                        transition: { duration: .3 },
-                    }}
-                    whileTap={{ scale: 0.9 }}>
-                    <IoIosArrowBack size={60} color={"black"} />
-                </BackButton>
+                />
                 <Address>
                     {arKey}
                     <Copy whileHover={{
@@ -83,12 +84,12 @@ const Component = ({ arKey, winston, ar, setWalletRendered }) => {
 
                             scale: 0.9
                         }}>
-                        {copy ? <FaClipboardCheck size={28}  className="clipboard" /> : <FaClipboard size={28} className="clipboard" onClick={handleCopy} />}
+                        {copy ? <FaClipboardCheck size={28} className="clipboard" /> : <FaClipboard size={28} className="clipboard" onClick={handleCopy} />}
                     </Copy>
 
                 </Address>
                 {/* <h5>{winston} Winston</h5> */}
-                <h3>{Math.round(ar * 100) / 100} AR</h3>
+                <h1 className="balance">{Math.round(ar * 100) / 100} AR</h1>
 
 
             </Content>

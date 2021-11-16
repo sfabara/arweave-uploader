@@ -8,6 +8,11 @@ import Arweave from 'arweave';
 import DotLoader from "react-spinners/DotLoader";
 import "./index.css"
 
+//components
+import OpenedWallet from '../OpenedWallet/index'
+import InputWallet from '../InputWallet/index'
+
+
 const HandleWallet = styled.div`
 display: flex;
 align-items: center;
@@ -32,7 +37,7 @@ const Button = styled(motion.div)`
 
 `;
 
-const ConnectWallet = styled(Button)`
+const ConnectWalletBtn = styled(Button)`
 flex-direction: row;
 justify-content: space-around;
     color: black ;
@@ -53,9 +58,9 @@ justify-content: space-around;
 `
 
 
-const NewWallet = styled(Button)`
-flex-direction: row;
-justify-content: space-around;
+const NewWalletBtn = styled(Button)`
+    flex-direction: row;
+    justify-content: space-around;
     color: #ffffff ;
     width: 50%;
     background-color: #000000;
@@ -63,17 +68,16 @@ justify-content: space-around;
     font-weight: 700;
     outline: solid #fff;
     &:hover{
-      background-color: #f0f0f0;
-      color: #000000 !important;
-    outline: solid #000000;
-      box-shadow: 5px 5px 0px 7px #000000 ;
-
+        background-color: #f0f0f0;
+        color: #000000 !important;
+        outline: solid #000000;
+        box-shadow: 5px 5px 0px 7px #000000 ;
     }
 `
 
 
 
-const Component = ({ arKey, setArKey, arweave, setWalletRendered, setWinston, setAr }) => {
+const Component = ({ arKey, setArKey, arweave, setWalletRendered, setWinston, winston, setAr, ar, setConnectWallet, comp, walletRendered, connectWallet, setComp }) => {
     const [loading, setLoading] = useState(false)
 
 
@@ -119,55 +123,95 @@ const Component = ({ arKey, setArKey, arweave, setWalletRendered, setWinston, se
             })
             .catch(err => console.error(err));
 
+        return
+
 
     }
 
-
-    return (
-        <>
-            {loading ? <DotLoader color={"white"} /> : <HandleWallet>
-
-
-                <NewWallet
-
-                    onClick={handleOpenWallet}
-                    whileHover={{
-                        scale: 1.1,
-                        transition: {
-                            duration: .3
-                        },
-
-                    }}
-                    whileTap={{
-
-                        scale: 0.9
-                    }}
-
-                >
-                    <BsWallet2 size={60} />
-                    Open Wallet
-
-                </NewWallet>
-
-                <h2 style={{ color: "white" }}> OR </h2>
+    const handleConnectWallet = () => {
+        setLoading(true)
+        setTimeout(()=>
+        {
+            setLoading(false)
+        }, [1000])
+        setConnectWallet(true)
+    }
 
 
-                <ConnectWallet
-
-                    className="connect"
-                    whileHover={{
-                        scale: 1.1,
-                        transition: { duration: .3 },
-                    }}
-                    whileTap={{ scale: 0.9 }}>
-                    <GrConnect className="connect" size={60} />
-                    Connect Wallet
-                </ConnectWallet>
 
 
-            </HandleWallet>}
+    // if (walletRendered) {
+    //     setComp(<OpenedWallet ar={ar} winston={winston} arKey={arKey} setWalletRendered={setWalletRendered} />)
+    // }
+
+    // if (connectWallet) {
+    //     setComp(wallet = <InputWallet />)
+    // }
+    if (!walletRendered && !connectWallet) {
+        return (
+            <>
+                {loading ? <DotLoader color={"white"} /> : <HandleWallet>
+
+
+                    <NewWalletBtn
+
+                        onClick={handleOpenWallet}
+                        whileHover={{
+                            scale: 1.1,
+                            transition: {
+                                duration: .3
+                            },
+
+                        }}
+                        whileTap={{
+
+                            scale: 0.9
+                        }}
+
+                    >
+                        <BsWallet2 size={60} />
+                        Open Wallet
+
+                    </NewWalletBtn>
+
+                    <h2 style={{ color: "white" }}> OR </h2>
+
+
+                    <ConnectWalletBtn
+                        onClick={handleConnectWallet}
+                        className="connect"
+                        whileHover={{
+                            scale: 1.1,
+                            transition: { duration: .3 },
+                        }}
+                        whileTap={{ scale: 0.9 }}>
+                        <GrConnect className="connect" size={60} />
+                        Connect Wallet
+                    </ConnectWalletBtn>
+
+
+                </HandleWallet>}
+            </>
+        )
+    }
+    else if (walletRendered && !connectWallet) {
+        return <>
+
+            {loading ? <DotLoader color={"white"} /> : <OpenedWallet ar={ar} winston={winston} arKey={arKey} setWalletRendered={setWalletRendered} />}
+
         </>
-    )
+    }
+    else if (connectWallet && !walletRendered) {
+        return (
+            <>
+                {loading ? <DotLoader color={"white"} /> :
+                    <InputWallet setConnectWallet={setConnectWallet}/>
+                }
+
+            </>)
+    }
+
+
 
 }
 
